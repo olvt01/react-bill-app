@@ -10,20 +10,26 @@ export class DataGetter extends Component {
     componentDidUpdate = () => this.getData();
 
     getData = () => {
-        if (this.props.match.params.category !== 'all') {
+        if (this.props.match.params.category &&
+            this.props.match.params.category !== 'all') {
             console.log(this.props.match.params.category);
 
-            const billid = this.props.bills.results.filter(p =>
-                p.bill == this.props.match.params.category
-            )[0].id;
+            try
+              {
+                const billid = this.props.bills.results.filter(p =>
+                    p.bill === this.props.match.params.category
+                )[0].id;
 
-            if (this.props.bills_detail_params == null ||
-                this.props.bills_detail.results[0].billid !== billid) {
-                    this.props.loadData(DataTypes.BILLS_DETAIL, {id: billid});
+                if (this.props.bills_detail_params == null ||
+                    this.props.bills_detail.results[0].billid !== billid) {
+                        this.props.loadData(DataTypes.BILLS_DETAIL, {id: billid});
+                }
+            } catch(err) {
+                console.log("category doesn't match");
             }
+
         }
         else {
-            this.props.loadData(DataTypes.BILLS_DETAIL);
         }
     }
 }

@@ -5,6 +5,10 @@ export const BillReducer = (storeData, action) => {
         case ActionTypes.DATA_LOAD:
             switch(action.payload.dataType) {
                 case DataTypes.BILLS:
+                    action.payload.data.results = action.payload.data.results.map(p=> ({
+                      ...p, 'subscribe': false
+                      })
+                    )
                     return {
                         ...storeData,
                         [action.payload.dataType]: action.payload.data,

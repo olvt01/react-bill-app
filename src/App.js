@@ -4,16 +4,23 @@ import { BrowserRouter as Router, Route, Switch, Redirect }
 import { Provider } from "react-redux";
 import { BillAppDataStore } from "./data/DataStore";
 import { Connector } from "./bill/Connector";
+import { AuthProviderImpl } from "./auth/AuthProviderImpl";
+import NavBar from "./bill/NavBar";
 
 export default class App extends Component {
     render() {
         return <Provider store={ BillAppDataStore }>
-            <Router>
-                <Switch>
-                    <Route path="/" component={ Connector } />
-                    <Redirect to="/" />
-                </Switch>
-            </Router>
+            <AuthProviderImpl>
+                <Router>
+                    <div>
+                      <NavBar />
+                      <Switch>
+                          <Route path="/" component={ Connector } />
+                          <Redirect to="/" />
+                      </Switch>
+                    </div>
+                </Router>
+            </AuthProviderImpl>
         </Provider>
     }
 }

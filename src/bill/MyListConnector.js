@@ -2,16 +2,16 @@ import React, { Component } from "react";
 import { Switch, Route, Redirect, withRouter }
     from "react-router-dom";
 import { connect } from "react-redux";
+import User from "../bill/User";
 import { MainPage } from "./MainPage";
-import { Home } from "./Home";
-import User from "./User";
 import * as Actions from "../data/Actions";
 import { DataTypes } from "../data/Types";
 import { DataGetter } from "../data/DataGetter";
 
+
 const mapDispatchToProps = { ...Actions };
 
-export const Connector = connect(ds => ds, mapDispatchToProps)(
+export const MyListConnector = connect(ds => ds, mapDispatchToProps)(
     class extends Component {
         selectComponent = (routeProps) => {
             const wrap = (Component, Content) =>
@@ -24,11 +24,10 @@ export const Connector = connect(ds => ds, mapDispatchToProps)(
                 case "user":
                     return wrap(User)
                 default:
-                    return wrap(Home)
+                    return <Redirect to ='/' />
             }
         }
         render() {
-          console.log('Connector');
             return <Switch>
                 <Route path={ "/:section?/:category?" }
                     render = { routeProps => this.selectComponent(routeProps) } />
