@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import { AuthWrapper } from "./AuthWrapper";
 import { ValidatedForm } from "../forms/ValidatedForm";
 
-export const AuthPrompt = withRouter(AuthWrapper(class extends Component {
+export const AuthSignUpPrompt = withRouter(AuthWrapper(class extends Component {
 
     constructor(props) {
         super(props);
@@ -12,15 +12,17 @@ export const AuthPrompt = withRouter(AuthWrapper(class extends Component {
         }
         this.defaultAttrs = { required: true };
         this.formModel = [
-            { label: "Email", attrs: { defaultValue: "test@testtest.com"}},
+            { label: "Email", attrs: { defaultValue: ""}},
+            { label: "Name", attrs: { defaultValue: ""} },
             { label: "Password", attrs: { type: "password"} },
         ];
     }
 
-    authenticate = (credentials) => {
-        this.props.authenticate(credentials)
+    signup = (credentials) => {
+        this.props.signup(credentials)
             .catch(err => this.setState({ errorMessage: err.message}))
             .then(this.props.history.push("/user"));
+        console.log('YESSSS');
     }
 
     render = () =>
@@ -34,8 +36,8 @@ export const AuthPrompt = withRouter(AuthWrapper(class extends Component {
                     }
                     <ValidatedForm formModel={ this.formModel }
                         defaultAttrs={ this.defaultAttrs }
-                        submitCallback={ this.authenticate }
-                        submitText="Login"
+                        submitCallback={ this.signup }
+                        submitText="SignUp"
                         cancelCallback={ () => this.props.history.push("/")}
                         cancelText="Cancel"
                     />

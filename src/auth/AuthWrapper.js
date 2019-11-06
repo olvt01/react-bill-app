@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { AuthContext } from "./AuthContext";
 
-export const authWrapper = (WrappedComponent) => 
+export const AuthWrapper = (WrappedComponent) => 
     class extends Component {
-        render = () => 
+        render = () =>
             <AuthContext.Consumer>
                 { context =>
                     <WrappedComponent { ...this.props } { ...context } />

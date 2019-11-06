@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { ToggleLink } from "../ToggleLink"
-import { authWrapper } from "../auth/AuthWrapper";
+import { AuthWrapper } from "../auth/AuthWrapper";
 
 
-export default authWrapper(class extends Component {
+export default AuthWrapper(class extends Component {
     render() {
         return <div className="col bg-dark text-white p-1">
                 <Link className="btn btn-sm bg-dark text-white" to="/">
@@ -22,15 +22,23 @@ export default authWrapper(class extends Component {
                 </Link>
                 <div className="float-right">
                   { this.props.isAuthenticated &&
-                    <button onClick={ this.props.signout }
-                        className="btn btn-sm bg-dark text-white">
-                        <small>Log Out</small>
-                    </button>
+                    <React.Fragment>
+                      <span> Hi { this.props.name }</span>
+                      <button onClick={ this.props.signout }
+                          className="btn btn-sm bg-dark text-white">
+                          <small>Log Out</small>
+                      </button>
+                    </React.Fragment>
                   }
                   { !this.props.isAuthenticated &&
-                    <Link className="btn btn-sm bg-dark text-white" to="/user">
-                      <small>Login</small>
-                    </Link>
+                    <React.Fragment>
+                      <Link className="btn btn-sm bg-dark text-white" to="/user">
+                        <small>Login</small>
+                      </Link>
+                      <Link className="btn btn-sm bg-dark text-white" to="/signup">
+                        <small>SignUp</small>
+                      </Link>
+                    </React.Fragment>
                   }
                 </div>
             </div>

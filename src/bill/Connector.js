@@ -4,7 +4,7 @@ import { Switch, Route, Redirect, withRouter }
 import { connect } from "react-redux";
 import { MainPage } from "./MainPage";
 import { Home } from "./Home";
-import User from "./User";
+import { UserConnector } from "./UserConnector";
 import * as Actions from "../data/Actions";
 import { DataTypes } from "../data/Types";
 import { DataGetter } from "../data/DataGetter";
@@ -22,7 +22,9 @@ export const Connector = connect(ds => ds, mapDispatchToProps)(
                 case "bill":
                     return wrap(DataGetter, MainPage)
                 case "user":
-                    return wrap(User)
+                    return wrap(UserConnector)
+                case "signup":
+                    return wrap(UserConnector)
                 default:
                     return wrap(Home)
             }

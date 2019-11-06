@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { RestUrls } from "./Urls";
+import { RestUrls, AuthUrls } from "./Urls";
 
 export class RestDataSource {
 
@@ -15,4 +15,7 @@ export class RestDataSource {
 
     SendRequest = (method, url, params, data) =>
         Axios.request({ method, url, params, data });
+
+    AuthData = (dataType, params, token) =>
+        this.SendAuthRequest("get", dataType, params, token);
 }

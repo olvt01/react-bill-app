@@ -21,7 +21,7 @@ export class SideBar extends Component {
   }
 
   render() {
-    if (this.state.bills == null || this.state.bills.count === 0) {
+    if (this.props.bills == null || this.props.bills.count === 0) {
         return <h5 className="p-2">No Items</h5>
     }
 
@@ -30,7 +30,8 @@ export class SideBar extends Component {
 
           <form>
             <input
-              placeholder='Search...'
+              placeholder='Search'
+              aria-labe='Search'
               value={ this.state.searchTerm }
               onChange={ this.onSearchChange }
               ref={ el => this.input = el }
@@ -43,7 +44,7 @@ export class SideBar extends Component {
               All
           </ToggleLink>
           {
-            this.state.bills.results.filter(p=>
+            this.props.bills.results.filter(p=>
                 p.bill.includes(this.state.delayedSearchTerm)
             ).map(p=>
               <ToggleLink key={ p.id } to={ `${this.props.baseUrl}/${p.bill}`}>
@@ -54,13 +55,4 @@ export class SideBar extends Component {
         </div>
       </nav>
   }
-
-  componentDidUpdate() {
-      if (this.props.bills !== null && this.state.bills !== this.props.bills) {
-        this.setState({ bills : this.props.bills });
-      }
-      if (this.input) {
-        this.input.focus();
-      }
-    }
 }

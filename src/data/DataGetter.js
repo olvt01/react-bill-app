@@ -12,8 +12,6 @@ export class DataGetter extends Component {
     getData = () => {
         if (this.props.match.params.category &&
             this.props.match.params.category !== 'all') {
-            console.log(this.props.match.params.category);
-
             try
               {
                 const billid = this.props.bills.results.filter(p =>
