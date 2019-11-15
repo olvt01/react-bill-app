@@ -12,5 +12,37 @@ export const loadData = (dataType, params) => (
         params
       })
     )
-  }
-)
+  })
+
+export const loadUserSubscription = (dataType, subscription) => (
+  {
+    type: ActionTypes.SET_SUBSCRIPTION,
+    payload: ({
+      dataType,
+      data: subscription
+    })
+  })
+
+export const updateUserSubscription = (subscription) => (
+  {
+    type: ActionTypes.UPDATE_SUBSCRIPTION,
+    payload: ({
+      data: subscription
+    })
+  })
+
+export const deleteUserSubscription = (subscription) => (
+  {
+    type: ActionTypes.DELETE_SUBSCRIPTION,
+    payload: ({
+      data: subscription
+    })
+  })
+// export const resetUserSubscription = (dataType, data) => (
+//   {
+//     type: Action.Types.RESET_SUBSCRIPTION,
+//     payload: {
+//       dataType
+//     }
+//   }
+// )

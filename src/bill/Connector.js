@@ -30,12 +30,13 @@ export const Connector = connect(ds => ds, mapDispatchToProps)(
             }
         }
         render() {
-          console.log('Connector');
             return <Switch>
                 <Route path={ "/:section?/:category?" }
                     render = { routeProps => this.selectComponent(routeProps) } />
             </Switch>
         }
-        componentDidMount = () => this.props.loadData(DataTypes.BILLS, {page_size:1000});
+        componentDidMount = () => {
+          this.props.loadData(DataTypes.BILLS, {page_size:1000});
+        }
     }
 )

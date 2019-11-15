@@ -5,49 +5,38 @@ import { AuthWrapper } from "../auth/AuthWrapper";
 import { DataTypes } from "../data/Types";
 import { AuthUrls } from "../data/Urls";
 import { SideBar } from "./SideBar";
+import "./User.css";
 
 export default AuthWrapper(class extends Component {
-    constructor(props) {
-      super(props)
-      this.state = {
-        bills: null,
-      }
-    }
     render() {
-      if (this.state.bills==null) {
+      if (this.props.bills==null || this.props.userSubscription==null) {
         return <div>...Loading</div>
       }
-      return <div className="container-fluid border">
-        <div className="row">
-          <div className="col-12 col-md-3 col-xl-2 bd-sidebar">
-            <SideBar baseUrl="/bill" bills={ this.state.bills } />
+      return <React.Fragment>
+          <SideBar baseUrl="/bill" bills={ this.props.bills } />
+            <div className="container-fluid">
+              <div className="main">
+                { this.props.bills.results.filter(p=>{
+                  for(let i in this.props.userSubscription) {
+                    if(p.id===this.props.userSubscription[i].bill_id) {
+                      return true;
+                    }
+                  }
+                  return false;
+                }).map(p=>
+                  <span key={p.id}>
+                    {p.id} {p.bill}
+                  </span>
+                )}
+            </div>
           </div>
-          <div className="col-12 col-md-3 col-xl-2 bd-sidebar">
-            { this.state.bills.results.map(p=>
-                p.bill
-            )}
-          </div>
-          <div className="col-12 col-md-9  border">
-            YES
-          </div>
-        </div>
-      </div>
+        </React.Fragment>
     }
 
     componentDidMount = () => {
-      Axios.get(AuthUrls[DataTypes.USER_SUBSCRIPTION],
-        { headers: {"Authorization" : `TOKEN ${this.props.webToken}`} }).then(response => {
-          if (response.data) {
-                response.data.results = response.data.results.map(p=> ({
-                  'id': p.id,
-                  'bill_id': p.subscribe_bill.bill_id,
-                  'bill': p.subscribe_bill.bill_name
-                }))
-              this.setState({ bills: response.data })
-          }
-          else {
-              this.setState({ bills: 2 });
-          }
-      })
+      this.props.setUserSubscription(this.props.webToken);
+      if (0) {
+        console.log('0000000000000000000');
+      }
     }
 })

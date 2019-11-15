@@ -22,7 +22,6 @@ export const AuthSignUpPrompt = withRouter(AuthWrapper(class extends Component {
         this.props.signup(credentials)
             .catch(err => this.setState({ errorMessage: err.message}))
             .then(this.props.history.push("/user"));
-        console.log('YESSSS');
     }
 
     render = () =>

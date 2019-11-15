@@ -11,31 +11,38 @@ import { AuthWrapper } from "../auth/AuthWrapper";
 import { AuthPrompt } from "../auth/AuthPrompt";
 import { AuthSignUpPrompt } from "../auth/AuthSignUpPrompt";
 
-
 const mapDispatchToProps = { ...Actions };
 
 export const UserConnector = connect(ds => ds, mapDispatchToProps)(
-    AuthWrapper(class extends Component {
-        selectComponent = (routeProps) => {
-            switch (routeProps.match.params.section) {
-                case "user":
-                    return <AuthPrompt />
-                case "signup":
-                    return <AuthSignUpPrompt />
-            }
-        }
-        render() {
-            return <Switch>
-                {
-                    !this.props.isAuthenticated &&
-                        <Route render = { routeProps => this.selectComponent(routeProps) } />
-                }
-                <Route path="/user" component={ User } />
-                <Redirect to="/user" />
-            </Switch>
-        }
-        componentDidMount = () => {
-            console.log('UserConnector');
-        }
+  AuthWrapper(class extends Component {
+    selectComponent = (routeProps) => {
+      switch (routeProps.match.params.category) {
+        case "login":
+          return <AuthPrompt />
+        case "signup":
+          return <AuthSignUpPrompt />
+        default:
+          return <AuthPrompt />
+      }
     }
+
+    ConnectedUser = (routeProps) => {
+      return <User { ...this.props } {...routeProps} />
+    }
+
+    render() {
+      return <Switch>
+        {
+          !this.props.isAuthenticated &&
+            <Route render = { routeProps => this.selectComponent(routeProps) } />
+        }
+        <Route path="/user" render={ routeProps => this.ConnectedUser(routeProps) } />
+        <Redirect to="/user" />
+      </Switch>
+    }
+
+    componentDidMount = () => {
+      // console.log(this.props.loadUserSubscription);
+    }
+  }
 ))

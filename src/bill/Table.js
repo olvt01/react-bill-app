@@ -1,27 +1,52 @@
 import React, { Component } from "react";
-// import "./Table.css";
+import ReactDOM from "react-dom";
+import ColumnResizer from "column-resizer";
+import "./Table.css";
 
-const largeColumn = {
-  width: '40%',
-};
-
-const midColumn = {
-  width: '30%',
-};
-
-const smallColumn = {
-  width: '10%',
-};
 
 export class Table extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       sortKey: 'NONE',
       isSortReverse: false,
     };
+    this.tableSelector = "#somethingUnique";
+  }
 
+  componentWillUnmount() {
+    if (this.props.resizable) {
+      this.disableResize();
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.resizable) {
+        this.enableResize();
+    }
+  }
+
+  componentWillUpdate() {
+    if (this.props.resizable) {
+        this.disableResize();
+    }
+  }
+
+  enableResize = () => {
+    const options = this.props.resizerOptions;
+    // options.widths=['10%','20%','20%','40%','10%'];
+    // options.disabledColumns=[0];
+    if (!this.resizer) {
+        this.resizer = new ColumnResizer(this.node, options);
+    } else {
+        this.resizer.reset(options);
+    }
+  }
+
+  disableResize = () => {
+    if (this.resizer) {
+        this.resizer.reset({ disable: true });
+    }
   }
 
   onSort = (sortKey) => {
@@ -44,45 +69,36 @@ export class Table extends Component {
     //   : sortedList;
 
     return (
-      <table className="table">
-        <thead className="table-header">
-          <tr>
-            <th style={{ width: '1px' }}>
-                1
-            </th>
-            <th style={midColumn}>
-                2
-            </th>
-            <th style={largeColumn}>
-                3
-            </th>
-            <th style={largeColumn}>
-                4
-            </th>
-            <th style={smallColumn}>
-                5
-            </th>
+      <table
+        className="table-sm"
+        ref={(n) => this.node = n}
+      >
+        <thead>
+          <tr className="sticky">
+            <th style={{ width: '90px' }}>의안번호</th>
+            <th style={{ width: '110px' }}>제안일</th>
+            <th>주요내용 및 제안이유</th>
+            <th>기타</th>
           </tr>
         </thead>
-        {this.props.list.map(item =>
-            <tr key={item.billno} className="table-row">
-              <td style={{ width: '1px' }}>
+        <tbody>
+          {this.props.list.map(item =>
+            <tr key={item.billno} >
+              <td>
                 <a href={item.billlink}>{item.billno}</a>
               </td>
-              <td style={midColumn}>
+              <td>
                 {item.proposerdt}
               </td>
-              <td style={largeColumn}>
-                {item.committeename}
-              </td>
-              <td style={largeColumn}>
+              <td className="td-summarycontent">
                 {item.summarycontent}
               </td>
-              <td style={smallColumn}>
-                  Dismiss
+              <td>
+                A
               </td>
             </tr>
-        )}
+          )}
+        </tbody>
       </table>
     );
   }

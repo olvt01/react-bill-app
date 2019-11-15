@@ -8,19 +8,19 @@ import { AuthProviderImpl } from "./auth/AuthProviderImpl";
 import NavBar from "./bill/NavBar";
 
 export default class App extends Component {
-    render() {
-        return <Provider store={ BillAppDataStore }>
-            <AuthProviderImpl>
-                <Router>
-                    <div>
-                      <NavBar />
-                      <Switch>
-                          <Route path="/" component={ Connector } />
-                          <Redirect to="/" />
-                      </Switch>
-                    </div>
-                </Router>
-            </AuthProviderImpl>
-        </Provider>
-    }
+  render() {
+    return <Provider store={ BillAppDataStore }>
+      <AuthProviderImpl>
+        <Router>
+          <React.Fragment>
+            <NavBar />
+              <Switch>
+                <Route path="/" component={ Connector } />
+                <Redirect to="/" />
+              </Switch>
+          </React.Fragment>
+        </Router>
+      </AuthProviderImpl>
+    </Provider>
+  }
 }

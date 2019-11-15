@@ -6,7 +6,7 @@ export class DataGetter extends Component {
     render() {
         return <React.Fragment>{ this.props.children }</React.Fragment>
     }
-
+    componentDidMount = () => this.getData();
     componentDidUpdate = () => this.getData();
 
     getData = () => {
@@ -20,6 +20,7 @@ export class DataGetter extends Component {
 
                 if (this.props.bills_detail_params == null ||
                     this.props.bills_detail.results[0].billid !== billid) {
+                      console.log(`this.props.loadData(DataTypes.BILLS_DETAIL, {id: billid});`);
                         this.props.loadData(DataTypes.BILLS_DETAIL, {id: billid});
                 }
             } catch(err) {
@@ -28,6 +29,7 @@ export class DataGetter extends Component {
 
         }
         else {
+          // this.props.loadData(DataTypes.BILLS_DETAIL, {page_size:50});
         }
     }
 }

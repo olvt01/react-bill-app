@@ -8,5 +8,9 @@ export const DataTypes = {
 }
 
 export const ActionTypes = {
-    DATA_LOAD: "data_load"
+    DATA_LOAD: "data_load",
+    SET_SUBSCRIPTION: "set_subscription",
+    UPDATE_SUBSCRIPTION: "update_subscription",
+    DELETE_SUBSCRIPTION: "delete_subscription",
+    RESET_SUBSCRIPTION: "reset_subscription"
 }
