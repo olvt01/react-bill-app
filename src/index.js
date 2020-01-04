@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 ReactDOM.render(<App />, document.getElementById('root'));
+document.body.style = 'background: #f1f2f7;';
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

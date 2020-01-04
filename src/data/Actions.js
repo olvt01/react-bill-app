@@ -1,10 +1,11 @@
+import { DataTypes } from "./Types";
 import { ActionTypes } from "./Types";
 import { RestDataSource } from "./RestDataSource";
 
 const dataSource = new RestDataSource();
 
-export const loadData = (dataType, params) => (
-  {
+export const loadData = (dataType, params) => {
+  return {
     type: ActionTypes.DATA_LOAD,
     payload: dataSource.GetData(dataType, params).then(response =>
       ({ dataType,
@@ -12,37 +13,24 @@ export const loadData = (dataType, params) => (
         params
       })
     )
+  }}
+
+export const setBill = (bill) => ({
+    type: ActionTypes.DATA_SET_BILL,
+    payload: dataSource.GetData(DataTypes.BILLS, {bill: bill})
+      .then(response => response.data)
   })
 
-export const loadUserSubscription = (dataType, subscription) => (
-  {
-    type: ActionTypes.SET_SUBSCRIPTION,
-    payload: ({
-      dataType,
-      data: subscription
-    })
-  })
+export const setParams = (actionType, newParam) =>
+    ({ type: actionType, payload: newParam});
 
-export const updateUserSubscription = (subscription) => (
-  {
-    type: ActionTypes.UPDATE_SUBSCRIPTION,
-    payload: ({
-      data: subscription
-    })
-  })
+export const setDefaultParams = () =>
+    ({ type: ActionTypes.DATA_SET_DEFAULT_PARAMS });
 
-export const deleteUserSubscription = (subscription) => (
-  {
-    type: ActionTypes.DELETE_SUBSCRIPTION,
-    payload: ({
-      data: subscription
-    })
-  })
-// export const resetUserSubscription = (dataType, data) => (
-//   {
-//     type: Action.Types.RESET_SUBSCRIPTION,
-//     payload: {
-//       dataType
-//     }
-//   }
-// )
+export const setClearDataStore = (clearType, dataType) => ({
+  type: ActionTypes.DATA_SET_CLEAR_DATASTORE,
+  payload: {
+    clearType: clearType,
+    dataType: dataType
+  }
+});

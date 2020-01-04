@@ -1,0 +1,44 @@
+.main-nav {
+  font-size: 12px;
+  height: 40px;
+  z-index: 99;
+  background-color: white;
+  border-bottom-width: 1px ;
+  border-bottom-style: solid;
+  border-bottom-color: #f0f0f0;
+}
+
+.nav-info {
+  display: inline-block;
+  height: 100%;
+  font-size: 15px;
+  padding: 3px;
+  padding-left: 7px;
+  text-align: center;
+}
+
+.nav-float-wrapper {
+  display: inline-block;
+  float: right;
+  height: 100%;
+}
+
+.nav-item {
+  display: inline-block;
+  height: 100%;
+  font-size: 14px;
+  padding: 5px;
+  margin-right: 5px;
+  color: #525252;
+  text-align: center;
+}
+
+.link:hover {
+  cursor: pointer;
+  color: #34a4eb;
+  text-decoration: none;
+}
+
+button {
+  font-size: 12px;
+}

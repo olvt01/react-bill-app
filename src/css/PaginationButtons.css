@@ -1,0 +1,40 @@
+.button {
+  color:#3d3d3d;
+  text-decoration-color: #f0f0f0;
+  padding:2px;
+  font-size: 17px;
+}
+
+.button:hover {
+  color: #a8325c;
+  font: bold;
+  text-decoration: underline;
+  text-decoration-style: solid;
+  text-decoration-color: #a8325c;
+}
+
+
+.button-current{
+  color: #a8325c;
+  font: bold;
+  text-decoration: underline;
+  text-decoration-style: solid;
+  text-decoration-color: #a8325c;
+}
+
+
+.button-disabled{
+  color: #9c9c9c;
+  text-decoration: none;
+}
+
+.button-disabled:hover{
+  color: #9c9c9c;
+  text-decoration: none;
+  cursor: default;
+}
+
+
+.aa{
+  decoration: none;
+}

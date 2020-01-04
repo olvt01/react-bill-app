@@ -5,21 +5,22 @@ import { Provider } from "react-redux";
 import { BillAppDataStore } from "./data/DataStore";
 import { Connector } from "./bill/Connector";
 import { AuthProviderImpl } from "./auth/AuthProviderImpl";
-import NavBar from "./bill/NavBar";
+import { CssProviderImpl } from "./css/CssProviderImpl";
 
 export default class App extends Component {
   render() {
     return <Provider store={ BillAppDataStore }>
       <AuthProviderImpl>
-        <Router>
-          <React.Fragment>
-            <NavBar />
+        <CssProviderImpl>
+          <Router>
+            <React.Fragment>
               <Switch>
                 <Route path="/" component={ Connector } />
                 <Redirect to="/" />
               </Switch>
-          </React.Fragment>
-        </Router>
+            </React.Fragment>
+          </Router>
+        </CssProviderImpl>
       </AuthProviderImpl>
     </Provider>
   }

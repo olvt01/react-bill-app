@@ -2,18 +2,18 @@ import React, { Component } from "react";
 import Axios from "axios";
 import { AuthContext } from "./AuthContext";
 import { DataTypes } from "../data/Types";
-import * as Actions from "../data/Actions";
 import { AuthUrls } from "../data/Urls";
 
-export class AuthProviderImpl extends Component {
+export const AuthProviderImpl = class extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             isAuthenticated: false,
             webToken: null,
-            name: null,
-            userSubscription: []
+            userInfo: null,
+            userSubscription: [],
+            userBookmark: [],
         }
     }
 
@@ -22,7 +22,7 @@ export class AuthProviderImpl extends Component {
         { headers: {"Authorization" : `TOKEN ${token}`} }).then(response => {
           if (response.status===200) {
               this.setState({
-                  name: response.data.name
+                  userInfo: response.data
               })
               return true;
           } else {
@@ -49,8 +49,8 @@ export class AuthProviderImpl extends Component {
     signup = (credentials) => {
       return Axios.post(AuthUrls[DataTypes.CREATEUSER], credentials).then(response => {
           if (response.status === 201) {
-              delete credentials.name;
-              this.authenticate(credentials);
+              this.setState({ userInfo: response.data })
+              return true;
           } else {
               throw new Error("Invalid Credentials");
           }
@@ -61,9 +61,24 @@ export class AuthProviderImpl extends Component {
         this.setState({
           isAuthenticated: false,
           webToken: null,
-          name: null,
+          userInfo: null,
           userSubscription: [],
+          userBookmark: [],
         });
+    }
+
+    updateUserData = (token, newUserInfo) => {
+      return Axios.patch(AuthUrls[DataTypes.MANAGEUSER],
+        newUserInfo,
+        { headers: {"Authorization" : `TOKEN ${token}`} }).then(response => {
+            if (response.status === 200) {
+                this.setState({ userInfo: response.data })
+                return response;
+            } else {
+              console.log(response);
+                throw new Error("Invalid Credentials");
+            }
+        })
     }
 
     setUserSubscription = (token) => {
@@ -73,16 +88,24 @@ export class AuthProviderImpl extends Component {
               const subscription = response.data.results.map(p=>{
                 return {
                   id: p.id,
-                  bill_id: p.subscribe_bill.bill_id
+                  bill_id: p.subscribe_bill.id
                 }
               })
               this.setState({ userSubscription: subscription });
-              Actions.loadUserSubscription(DataTypes.USER_SUBSCRIPTION, subscription);
+              // const subscriptionData = response.data.results.map(p=> {
+              //   return {
+              //     id: p.id,
+              //     bill: p.bill,
+              //     committee_id: p.committee_id,
+              //     count: p.count,
+              //     lastupdated: p.lastupdated,
+              //   }
+              // })
           }
       });
     }
 
-    subscribe = (billId, token) => {
+    subscribeLaw = (billId, token) => {
       return Axios.post(AuthUrls[DataTypes.USER_SUBSCRIPTION],
         { "subscribe_bill": billId },
         { headers: {"Authorization" : `TOKEN ${token}`} }).then(response => {
@@ -101,7 +124,7 @@ export class AuthProviderImpl extends Component {
         })
     }
 
-    unSubscribe = (id, token) => {
+    unSubscribeLaw = (id, token) => {
       console.log('Unsubscribing...');
       return Axios.delete(`${AuthUrls[DataTypes.USER_SUBSCRIPTION]}${id}/`,
         { headers: {"Authorization" : `TOKEN ${token}`} }).then(response => {
@@ -121,14 +144,70 @@ export class AuthProviderImpl extends Component {
         })
     }
 
+    setUserBookmark = (token) => {
+      return Axios.get(AuthUrls[DataTypes.USER_BOOKMARK],
+        { headers: {"Authorization" : `TOKEN ${token}`} }).then(response => {
+          if (response.data) {
+              // const subscription = response.data.results.map(p=>{
+              //   return {
+              //     id: p.id,
+              //     bill_id: p.subscribe_bill.id
+              //   }
+              // })
+              this.setState({ userBookmark: response.data.results });
+          }
+      });
+    }
+
+    subscribeBill = (billno, token) => {
+      return Axios.post(AuthUrls[DataTypes.USER_BOOKMARK],
+        { "bookmark": billno },
+        { headers: {"Authorization" : `TOKEN ${token}`} }).then(response => {
+          if (response.status===201) {
+            this.setState({
+              userBookmark: [
+                ...this.state.userBookmark,
+                response.data
+              ]
+            });
+            return response.data.id;
+          } else {
+            throw new Error("Invalid Credentials");
+          }
+        })
+    }
+
+    unSubscribeBill = (id, token) => {
+      return Axios.delete(`${AuthUrls[DataTypes.USER_BOOKMARK]}${id}/`,
+        { headers: {"Authorization" : `TOKEN ${token}`} }).then(response => {
+          if (response.status===204) {
+            this.setState({
+              userBookmark: this.state.userBookmark.filter(item=>{
+                if(id===item.id) {
+                  return false;
+                }
+                return true;
+              })
+            })
+            return true;
+          } else {
+            throw new Error("Invalid Credentials");
+          }
+        })
+    }
+
     render = () =>
         <AuthContext.Provider value={ {...this.state,
                 authenticate: this.authenticate,
                 signup: this.signup,
                 signout: this.signout,
                 setUserSubscription: this.setUserSubscription,
-                subscribe: this.subscribe,
-                unSubscribe: this.unSubscribe
+                subscribeLaw: this.subscribeLaw,
+                unSubscribeLaw: this.unSubscribeLaw,
+                setUserBookmark: this.setUserBookmark,
+                subscribeBill: this.subscribeBill,
+                unSubscribeBill: this.unSubscribeBill,
+                updateUserData: this.updateUserData,
               }}>
             { this.props.children }
         </AuthContext.Provider>

@@ -12,34 +12,35 @@ export const AuthPrompt = withRouter(AuthWrapper(class extends Component {
         }
         this.defaultAttrs = { required: true };
         this.formModel = [
-            { label: "Email", attrs: { defaultValue: "test@testtest.com"}},
-            { label: "Password", attrs: { type: "password"} },
+            { label: "email", attrs: { label: "이메일", defaultValue: "test@testtest.com"}},
+            { label: "password", attrs: { label: "비밀번호", type: "password"} },
         ];
     }
 
     authenticate = (credentials) => {
+        console.log(this.props);
         this.props.authenticate(credentials)
-            .catch(err => this.setState({ errorMessage: err.message}))
-            .then(this.props.history.push("/user"));
+            .catch(err => this.setState({ errorMessage: '이메일 또는 비밀번호가 잘못 되었습니다.' }))
+            .then(res => {
+              this.props.history.push('/user/mylist');
+            });
     }
 
     render = () =>
-        <div className="container-fluid ">
-            <div className="row border justify-content-center">
+        <div className="container-fluid">
+            <div className="row justify-content-center">
                 <div className="col-md-6">
-                    { this.state.errorMessage != null &&
-                        <h4 className="bg-danger text-center text-white m-1 p-2">
-                            { this.state.errorMessage }
-                        </h4>
-                    }
                     <ValidatedForm formModel={ this.formModel }
                         defaultAttrs={ this.defaultAttrs }
                         submitCallback={ this.authenticate }
                         submitText="Login"
                         cancelCallback={ () => this.props.history.push("/")}
                         cancelText="Cancel"
+                        category="로그인"
+                        errorMessage={ this.state.errorMessage }
                     />
                 </div>
             </div>
         </div>
+
 }))

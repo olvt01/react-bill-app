@@ -1,0 +1,32 @@
+.top {
+  padding-bottom: 10px;
+}
+
+.billList {
+  width: 100%;
+  /* line-height: 400px; */
+  background-color: white;
+  border-width: 1px ;
+  border-style: solid;
+  border-radius: 5px;
+  /* border-color: #f0f0f0; */
+  border-color: #d9d9d9;
+}
+
+table {
+  table-layout: auto;
+  margin:10px;
+}
+
+tr:nth-child(1) {
+  background-color: #e4e9ff;
+  padding:3px;
+}
+
+td {
+  padding:3px;
+  white-space: pre-wrap;
+}
+tr {
+  padding:0px;
+}

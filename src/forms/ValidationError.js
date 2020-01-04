@@ -4,10 +4,10 @@ export class ValidationError extends Component {
 
     render() {
         if (this.props.errors) {
-            return this.props.errors.map(err => 
-                <h6 className="text-danger" key={err}>
+            return this.props.errors.map(err =>
+                <span className="text-danger" style={{float: 'right', textAlign: 'right'}} key={err}>
                     { err }
-                </h6>
+                </span>
             )
         }
         return null;

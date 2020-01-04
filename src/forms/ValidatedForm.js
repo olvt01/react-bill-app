@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { ValidationError } from "./ValidationError";
 import { GetMessages } from "./ValidationMessages";
+import '../css/ValidatedForm.css';
 
 export class ValidatedForm extends Component {
 
@@ -14,12 +15,12 @@ export class ValidatedForm extends Component {
 
     handleSubmit = () => {
         this.setState(state => {
-            const newState = { ...state, validationErrors: {} } 
+            const newState = { ...state, validationErrors: {} }
             Object.values(this.formElements).forEach(elem => {
-                if (!elem.checkValidity()) {               
+                if (!elem.checkValidity()) {
                     newState.validationErrors[elem.name] = GetMessages(elem);
                 }
-            })           
+            })
             return newState;
         }, () => {
             if (Object.keys(this.state.validationErrors).length === 0) {
@@ -39,26 +40,36 @@ export class ValidatedForm extends Component {
     renderElement = (modelItem) => {
         const name = modelItem.name || modelItem.label.toLowerCase();
         return <div className="form-group" key={ modelItem.label }>
-            <label>{ modelItem.label }</label>
-            <ValidationError errors={ this.state.validationErrors[name] } />
+            <span>
+              <label>
+                { modelItem.attrs.label }
+              </label>
+              <ValidationError errors={ this.state.validationErrors[name] } />
+            </span>
             <input className="form-control" name={ name } ref={ this.registerRef }
-                { ...this.props.defaultAttrs } { ...modelItem.attrs } />            
+                { ...this.props.defaultAttrs } { ...modelItem.attrs } disabled={ modelItem.attrs.disabled ? true : false } />
         </div>
     }
 
     render() {
-        return <React.Fragment>
+        return <div className="validatedForm">
+            <div className="validatedForm-info">{ this.props.category }</div>
+              { this.props.errorMessage != null &&
+                  <div className="text-center text-danger" style={{ marginBottom: '15px'}}>
+                    { this.props.errorMessage }
+                  </div>
+              }
             { this.props.formModel.map(m => this.renderElement(m))}
             <div className="text-center">
-                <button className="btn btn-secondary m-1" 
+                <button className="btn btn-secondary m-1"
                         onClick={ this.props.cancelCallback }>
                     { this.props.cancelText || "Cancel" }
                 </button>
-                <button className="btn btn-primary m-1" 
+                <button className="btn btn-primary m-1"
                         onClick={ this.handleSubmit }>
                     { this.props.submitText || "Submit"}
-                </button>         
+                </button>
             </div>
-        </React.Fragment>
+        </div>
     }
 }

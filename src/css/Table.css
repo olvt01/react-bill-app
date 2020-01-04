@@ -1,13 +1,15 @@
 table {
   table-layout: fixed;
-  td, th{
-    overflow: hidden;
-    white-space: nowrap;
-    -moz-text-overflow: ellipsis;
-       -ms-text-overflow: ellipsis;
-        -o-text-overflow: ellipsis;
-           text-overflow: ellipsis;
-  }
+}
+
+th {
+  border-left: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+
+th:last-child {
+  border-right: 1px solid #ccc;
 }
 
 td {

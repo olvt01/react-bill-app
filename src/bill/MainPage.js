@@ -1,21 +1,15 @@
 import React, { Component } from "react";
-import { BillDisplay } from "./BillDisplay";
-import { SideBar } from "./SideBar";
-import "./MainPage.css";
+import { CombinedContextWrapper } from "../CombinedContextWrapper";
+import "../css/MainPage.css";
+import "../css/Table.css";
 
-export class MainPage extends Component {
+export const MainPage = CombinedContextWrapper(class extends Component {
   render() {
     return <React.Fragment>
-      <SideBar baseUrl="/bill" bills={ this.props.bills } />
-        <div className="container-fluid">
-          <div className="main">
-              <BillDisplay { ...this.props }/>
-          </div>
-        </div>
+
+      <div className="main-wrapper" style={{ marginLeft: this.props.width }}>
+          { this.props.children }
+      </div>
     </React.Fragment>
   }
-
-  componentDidMount () {
-    
-  }
-}
+})
