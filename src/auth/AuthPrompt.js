@@ -12,7 +12,7 @@ export const AuthPrompt = withRouter(AuthWrapper(class extends Component {
         }
         this.defaultAttrs = { required: true };
         this.formModel = [
-            { label: "email", attrs: { label: "이메일", defaultValue: "test@testtest.com"}},
+            { label: "email", attrs: { label: "이메일" }},
             { label: "password", attrs: { label: "비밀번호", type: "password"} },
         ];
     }

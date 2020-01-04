@@ -49,7 +49,7 @@ export class DataGetter extends Component {
               this.getBillData('');
               break;
             default:
-              return this.props.history.push('/user/mylist')
+              return null
           }
           break;
         case "search":

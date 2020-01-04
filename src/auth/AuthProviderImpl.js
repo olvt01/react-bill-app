@@ -75,7 +75,6 @@ export const AuthProviderImpl = class extends Component {
                 this.setState({ userInfo: response.data })
                 return response;
             } else {
-              console.log(response);
                 throw new Error("Invalid Credentials");
             }
         })
@@ -92,15 +91,6 @@ export const AuthProviderImpl = class extends Component {
                 }
               })
               this.setState({ userSubscription: subscription });
-              // const subscriptionData = response.data.results.map(p=> {
-              //   return {
-              //     id: p.id,
-              //     bill: p.bill,
-              //     committee_id: p.committee_id,
-              //     count: p.count,
-              //     lastupdated: p.lastupdated,
-              //   }
-              // })
           }
       });
     }
@@ -125,7 +115,6 @@ export const AuthProviderImpl = class extends Component {
     }
 
     unSubscribeLaw = (id, token) => {
-      console.log('Unsubscribing...');
       return Axios.delete(`${AuthUrls[DataTypes.USER_SUBSCRIPTION]}${id}/`,
         { headers: {"Authorization" : `TOKEN ${token}`} }).then(response => {
           if (response.status===204) {
@@ -148,12 +137,6 @@ export const AuthProviderImpl = class extends Component {
       return Axios.get(AuthUrls[DataTypes.USER_BOOKMARK],
         { headers: {"Authorization" : `TOKEN ${token}`} }).then(response => {
           if (response.data) {
-              // const subscription = response.data.results.map(p=>{
-              //   return {
-              //     id: p.id,
-              //     bill_id: p.subscribe_bill.id
-              //   }
-              // })
               this.setState({ userBookmark: response.data.results });
           }
       });
