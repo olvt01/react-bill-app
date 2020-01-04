@@ -18,11 +18,12 @@ export const AuthPrompt = withRouter(AuthWrapper(class extends Component {
     }
 
     authenticate = (credentials) => {
-        console.log(this.props);
         this.props.authenticate(credentials)
             .catch(err => this.setState({ errorMessage: '이메일 또는 비밀번호가 잘못 되었습니다.' }))
             .then(res => {
-              this.props.history.push('/user/mylist');
+              if(res) {
+                this.props.history.push('/user/mylist');
+              }
             });
     }
 

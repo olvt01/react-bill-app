@@ -49,7 +49,7 @@ export const AuthProviderImpl = class extends Component {
     signup = (credentials) => {
       return Axios.post(AuthUrls[DataTypes.CREATEUSER], credentials).then(response => {
           if (response.status === 201) {
-              this.setState({ userInfo: response.data })
+              this.setState({ userInfo: response.data }, () => this.authenticate(credentials))
               return true;
           } else {
               throw new Error("Invalid Credentials");

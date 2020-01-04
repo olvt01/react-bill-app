@@ -21,7 +21,11 @@ export const AuthSignUpPrompt = withRouter(AuthWrapper(class extends Component {
     signup = (credentials) => {
         this.props.signup(credentials)
             .catch(err => this.setState({ errorMessage: '이메일 또는 비밀번호가 잘못 되었습니다.' }))
-            .then(console.log(this.state.errorMessage));
+            .then(res => {
+              if(res) {
+                this.props.history.push('/home')
+              }
+            });
     }
 
     render = () =>
