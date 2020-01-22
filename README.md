@@ -2,7 +2,7 @@
 react bill app source code.
 
 ## Site
-End point: http://d2hm2mjdzk8360.cloudfront.net/
+http://d2hm2mjdzk8360.cloudfront.net/
 
 ## Skills
 
